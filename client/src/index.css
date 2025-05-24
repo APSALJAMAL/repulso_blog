@@ -93,3 +93,31 @@ body {
 }
 
 
+/* Reset & base */
+* { margin:0; padding:0; box-sizing:border-box; }
+body, html { font-family: 'Arial', sans-serif; color:#333; }
+a { text-decoration:none; color: inherit; }
+
+.App {
+  overflow-x: hidden;
+}
+
+/* Utility */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: #c08e5f;
+  color: #fff;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+.btn:hover {
+  background: #a06e3d;
+}

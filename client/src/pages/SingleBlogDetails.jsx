@@ -10,8 +10,23 @@ import { useFetch } from '@/hooks/useFetch'
 import { AvatarImage } from '@radix-ui/react-avatar'
 import { decode } from 'entities'
 import moment from 'moment'
-import React from 'react'
+import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
+import {
+    FacebookShareButton,
+    TwitterShareButton,
+    WhatsappShareButton,
+    LinkedinShareButton,
+    TelegramShareButton,
+    FacebookIcon,
+    TwitterIcon,
+    WhatsappIcon,
+    LinkedinIcon,
+    TelegramIcon,
+  } from 'react-share'
+  import { FaRegCopy } from 'react-icons/fa'
+import { FaCheck, FaXTwitter } from 'react-icons/fa6'
+
 
 const SingleBlogDetails = () => {
     const { blog, category } = useParams()
@@ -20,6 +35,15 @@ const SingleBlogDetails = () => {
         method: 'get',
         credentials: 'include',
     }, [blog, category])
+
+    const [copied, setCopied] = useState(false)
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000) // Reset after 2s
+    })
+  }
 
     if (loading) return <Loading />
     return (
@@ -45,11 +69,52 @@ const SingleBlogDetails = () => {
                             </div>
                         </div>
                         <div className='my-5'>
-                            <img src={data.blog.featuredImage} className='rounded' />
-                        </div>
+  <img 
+    src={data.blog.featuredImage} 
+    className='w-full h-auto max-h-[500px] object-contain rounded' 
+    alt='Featured' 
+  />
+</div>
+
+
                         <div dangerouslySetInnerHTML={{ __html: decode(data.blog.blogContent) || '' }}>
 
                         </div>
+
+
+                        <div className="border-t mt-8 pt-5">
+  <h2 className="text-lg font-semibold mb-2">Share this blog</h2>
+  
+  <div className="flex items-center gap-4 flex-wrap">
+    {/* Social Buttons */}
+    {/* Copy Link */}
+    <button
+  onClick={() => copyToClipboard(window.location.href)}
+  className="w-10 h-10 flex items-center justify-center bg-gray-200 rounded-full hover:bg-gray-300 transition"
+>
+  {copied ? <FaCheck className="text-green-600" /> : <FaRegCopy />}
+</button>
+    <FacebookShareButton url={window.location.href}>
+      <FacebookIcon size={32} round />
+    </FacebookShareButton>
+    <TwitterShareButton url={window.location.href}>
+      <FaXTwitter size={20} round />
+    </TwitterShareButton>
+    <WhatsappShareButton url={window.location.href}>
+      <WhatsappIcon size={32} round />
+    </WhatsappShareButton>
+    <LinkedinShareButton url={window.location.href}>
+      <LinkedinIcon size={32} round />
+    </LinkedinShareButton>
+    <TelegramShareButton url={window.location.href}>
+      <TelegramIcon size={32} round />
+    </TelegramShareButton>
+
+    
+
+  </div>
+</div>
+
 
                         <div className='border-t mt-5 pt-5'>
                             <Comment props={{ blogid: data.blog._id }} />

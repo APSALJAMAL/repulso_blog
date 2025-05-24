@@ -9,6 +9,7 @@ import CategoryRoute from './routes/Category.route.js'
 import BlogRoute from './routes/Blog.route.js'
 import CommentRouote from './routes/Comment.route.js'
 import BlogLikeRoute from './routes/Bloglike.route.js'
+import path from 'path'; 
 
 dotenv.config()
 
@@ -22,6 +23,7 @@ app.use(cors({
     credentials: true
 }))
 
+const __dirname = path.resolve();
 
 // route setup  
 
@@ -33,9 +35,16 @@ app.use('/api/comment', CommentRouote)
 app.use('/api/blog-like', BlogLikeRoute)
 
 
+app.use(express.static(path.join(__dirname, '/client/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'client', 'index.html'));
+});
 
 
-mongoose.connect(process.env.MONGODB_CONN, { dbName: 'yt-mern-blog' })
+
+
+mongoose.connect(process.env.MONGODB_CONN, { dbName: 'Chembavalam' })
     .then(() => console.log('Database connected.'))
     .catch(err => console.log('Database connection failed.', err))
 

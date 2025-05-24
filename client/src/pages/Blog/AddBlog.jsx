@@ -191,8 +191,8 @@ const AddBlog = () => {
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel>Blog Content</FormLabel>
-                                            <FormControl>
-                                                <Editor props={{ initialData: '', onChange: handleEditorData }} />
+                                            <FormControl className="font-tamil ">
+                                                <Editor  props={{ initialData: '', onChange: handleEditorData }} />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>

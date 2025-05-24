@@ -27,6 +27,8 @@ import OnlyOwner from './components/OnlyOwner'
 import Owner from './pages/Owner'
 import SplashScreen from './pages/SplashScreen'
 import LoadingPage from './pages/LoadingPage'
+import Publish from './pages/Publish'
+import MainPage from './pages/MainPage'
 
 
 const App = () => {
@@ -67,6 +69,7 @@ const App = () => {
         <Route path={RouteIndex} element={<Layout />} >
           <Route index element={<Index />} />
 
+          
 
           <Route path={RouteBlogDetails()} element={<SingleBlogDetails />} />
           <Route path={RouteBlogByCategory()} element={<BlogByCategory />} />
@@ -96,11 +99,13 @@ const App = () => {
 
           <Route element={<OnlyOwner />}>
         <Route path="/owner" element={<Owner />} />
+        <Route path="/publish" element={<Publish />} />
           </Route>
 
         </Route>
 
         
+        <Route path="/mainpage" element={<MainPage />} />
 
         <Route path={RouteSignIn} element={<SignIn />} />
         {/* <Route path={RouteSignUp} element={<SignUp />} /> */}

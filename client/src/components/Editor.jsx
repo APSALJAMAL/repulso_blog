@@ -54,13 +54,19 @@ import {
     TableColumnResize,
     TableProperties,
     TableToolbar,
-    TextPartLanguage,
+    // TextPartLanguage,
     TextTransformation,
     Title,
     TodoList,
     Underline,
-    WordCount
+    WordCount,
+    Highlight,
+  FontColor,
+  FontBackgroundColor,
+  FontFamily,
+  FontSize,
 } from 'ckeditor5';
+
 
 import 'ckeditor5/ckeditor5.css';
 
@@ -95,8 +101,10 @@ export default function Editor({ props }) {
                         'sourceEditing',
                         'showBlocks',
                         'findAndReplace',
-                        'textPartLanguage',
+                        // 'textPartLanguage',
                         '|',
+                        'fontFamily',
+                        'fontSize',
                         'heading',
                         '|',
                         'bold',
@@ -116,7 +124,11 @@ export default function Editor({ props }) {
                         'numberedList',
                         'todoList',
                         'outdent',
-                        'indent'
+                        'indent',
+                        'fontColor',               // <- Add this
+    'fontBackgroundColor',     // <- Add this
+    'highlight',               // <- And this
+                        
                     ],
                     shouldNotGroupWhenFull: false
                 },
@@ -173,12 +185,17 @@ export default function Editor({ props }) {
                     TableColumnResize,
                     TableProperties,
                     TableToolbar,
-                    TextPartLanguage,
+                    // TextPartLanguage,
                     TextTransformation,
                     Title,
                     TodoList,
                     Underline,
-                    WordCount
+                    WordCount,
+                    Highlight,
+                    FontColor,
+                    FontBackgroundColor,
+                    FontFamily,
+                    FontSize,
                 ],
                 balloonToolbar: ['bold', 'italic', '|', 'link', 'insertImage', '|', 'bulletedList', 'numberedList'],
                 blockToolbar: [
@@ -194,6 +211,10 @@ export default function Editor({ props }) {
                     'outdent',
                     'indent'
                 ],
+                fontSize: {
+                    options: [9, 11, 13, 'default', 17, 19, 21],
+                    supportAllValues: true
+                  },
                 heading: {
                     options: [
                         {
@@ -239,6 +260,23 @@ export default function Editor({ props }) {
                         }
                     ]
                 },
+                fontFamily: {
+                    options: [
+                      'default',
+                      'Arial, Helvetica, sans-serif',
+                      'Courier New, Courier, monospace',
+                      'Georgia, serif',
+                      'Trebuchet MS, Helvetica, sans-serif',
+                      'Times New Roman, Times, serif',
+                      'Latha, sans-serif',
+                      'Bamini, sans-serif',
+                      'Vijaya, sans-serif',
+                      'SurathaBamini, sans-serif',
+                      'Noto Sans Tamil, sans-serif'
+                    ],
+                    supportAllValues: true
+                  },
+                  
                 htmlSupport: {
                     allow: [
                         {
@@ -261,6 +299,32 @@ export default function Editor({ props }) {
                         'resizeImage'
                     ]
                 },
+                highlight: {
+                    options: [
+                      {
+                        model: 'yellowMarker',
+                        class: 'marker-yellow',
+                        title: 'Yellow marker',
+                        color: 'var(--ck-highlight-marker-yellow)',
+                        type: 'marker'
+                      },
+                      {
+                        model: 'greenMarker',
+                        class: 'marker-green',
+                        title: 'Green marker',
+                        color: 'var(--ck-highlight-marker-green)',
+                        type: 'marker'
+                      },
+                      {
+                        model: 'redPen',
+                        class: 'pen-red',
+                        title: 'Red pen',
+                        color: 'var(--ck-highlight-pen-red)',
+                        type: 'pen'
+                      }
+                    ]
+                  },
+                  
                 initialData: props?.initialData || '',
                 licenseKey: LICENSE_KEY,
                 link: {

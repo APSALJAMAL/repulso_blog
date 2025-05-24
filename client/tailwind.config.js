@@ -64,7 +64,11 @@ export default {
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
   			}
-  		}
+  		},
+		  fontFamily: {
+			modern: ['Inter', 'sans-serif'], // or 'Poppins', 'Montserrat'
+			tamil: ['"Baloo Thambi 2"', 'sans-serif'],
+		  },
   	}
   },
   plugins: [tailwindcssanimate],

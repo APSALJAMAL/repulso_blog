@@ -16,6 +16,7 @@ import { GrBlog } from "react-icons/gr";
 import { FaRegComments, FaRegUser } from "react-icons/fa6";
 import { LuUsers } from "react-icons/lu";
 import { GoDot } from "react-icons/go";
+import { TfiWrite } from "react-icons/tfi";
 import {
     RouteBlog,
     RouteBlogByCategory,
@@ -102,6 +103,14 @@ const AppSidebar = () => {
                                         <SidebarMenuButton>
                                             <LuUsers />
                                             <Link to="/owner">Owner</Link>
+                                        </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                )}
+                                {user.user.role === 'owner' && (
+                                    <SidebarMenuItem>
+                                        <SidebarMenuButton>
+                                        <TfiWrite />
+                                            <Link to="/publish">Publish</Link>
                                         </SidebarMenuButton>
                                     </SidebarMenuItem>
                                 )}

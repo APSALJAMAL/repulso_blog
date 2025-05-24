@@ -31,7 +31,12 @@ const blogSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true
+    },
+    publish: {
+        type: Boolean,
+        default: false
     }
+
 }, { timestamps: true })
 
 const Blog = mongoose.model('Blog', blogSchema, 'blogs')

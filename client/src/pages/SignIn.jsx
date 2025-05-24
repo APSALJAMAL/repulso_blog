@@ -64,7 +64,15 @@ const SignIn = () => {
       src={logo}
       alt="logo"
     />
-    <h1 className="text-xl font-extrabold text-black">REPULSO</h1>
+    <div className="flex flex-col justify-center leading-tight uppercase font-modern space-y-0.5">
+  <span className="text-base sm:text-xl font-bold tracking-[0.1em]">
+    Chembavalam
+  </span>
+  <span className="text-[10px] sm:text-xs tracking-[0.1em] text-gray-500 ml-2">
+    Research Base Trust
+  </span>
+</div>
+
   </Link>
 </div>
 
