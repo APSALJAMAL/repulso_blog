@@ -69,11 +69,11 @@ const CategoryDetails = () => {
                                         <TableCell>{category.name}</TableCell>
                                         <TableCell>{category.slug}</TableCell>
                                         <TableCell className="flex gap-3">
-                                            <Button variant="outline" className="hover:bg-violet-500 hover:text-white" asChild>
+                                            {/* <Button variant="outline" className="hover:bg-violet-500 hover:text-white" asChild>
                                                 <Link to={RouteEditCategory(category._id)}>
                                                     <FiEdit />
                                                 </Link>
-                                            </Button>
+                                            </Button> */}
                                             <Button onClick={() => handleDelete(category._id)} variant="outline" className="hover:bg-violet-500 hover:text-white" >
                                                 <FaRegTrashAlt />
                                             </Button>

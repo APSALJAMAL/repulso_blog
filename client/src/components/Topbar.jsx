@@ -121,7 +121,7 @@ const Topbar = () => {
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar className="border border-black bg-gray-100">
-                <AvatarImage src={user.user.avatar || usericon} />
+                <AvatarImage src={user.user.avatar} />
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>

@@ -82,7 +82,7 @@ const AppSidebar = () => {
                                 <SidebarMenuItem>
                                     <SidebarMenuButton>
                                         <BiCategoryAlt />
-                                        <Link to='/category/add'>Category</Link>
+                                        <Link to='/categories'>Category</Link>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                                 )}
