@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import {
+    Form, FormControl, FormField, FormItem, FormLabel, FormMessage
+} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { z } from 'zod'
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -26,19 +28,21 @@ import { RouteBlog } from '@/helpers/RouteName'
 const AddBlog = () => {
     const navigate = useNavigate()
     const user = useSelector((state) => state.user)
-    const { data: categoryData, loading, error } = useFetch(`${getEvn('VITE_API_BASE_URL')}/category/all-category`, {
+    const { data: categoryData } = useFetch(`${getEvn('VITE_API_BASE_URL')}/category/all-category`, {
         method: 'get',
         credentials: 'include'
     })
 
     const [filePreview, setPreview] = useState()
     const [file, setFile] = useState()
+    const [uploadProgress, setUploadProgress] = useState(0)
+    const [isUploading, setIsUploading] = useState(false)
 
     const formSchema = z.object({
-        category: z.string().min(3, 'Category must be at least 3 character long.'),
-        title: z.string().min(3, 'Title must be at least 3 character long.'),
-        slug: z.string().min(3, 'Slug must be at least 3 character long.'),
-        blogContent: z.string().min(3, 'Blog content must be at least 3 character long.'),
+        category: z.string().min(3, 'Category must be at least 3 characters long.'),
+        title: z.string().min(3, 'Title must be at least 3 characters long.'),
+        slug: z.string().min(3, 'Slug must be at least 3 characters long.'),
+        blogContent: z.string().min(3, 'Blog content must be at least 3 characters long.'),
     })
 
     const form = useForm({
@@ -56,7 +60,6 @@ const AddBlog = () => {
         form.setValue('blogContent', data)
     }
 
-
     const blogTitle = form.watch('title')
 
     useEffect(() => {
@@ -67,32 +70,59 @@ const AddBlog = () => {
     }, [blogTitle])
 
     async function onSubmit(values) {
-
         try {
             const newValues = { ...values, author: user.user._id }
+
             if (!file) {
                 showToast('error', 'Feature image required.')
+                return
             }
 
             const formData = new FormData()
             formData.append('file', file)
             formData.append('data', JSON.stringify(newValues))
 
-            const response = await fetch(`${getEvn('VITE_API_BASE_URL')}/blog/add`, {
-                method: 'post',
-                credentials: 'include',
-                body: formData
-            })
-            const data = await response.json()
-            if (!response.ok) {
-                return showToast('error', data.message)
+            const xhr = new XMLHttpRequest()
+
+            xhr.open('POST', `${getEvn('VITE_API_BASE_URL')}/blog/add`, true)
+            xhr.withCredentials = true
+
+            xhr.upload.onprogress = (event) => {
+                if (event.lengthComputable) {
+                    const percent = Math.round((event.loaded / event.total) * 100)
+                    setUploadProgress(percent)
+                }
             }
-            form.reset()
-            setFile()
-            setPreview()
-            navigate(RouteBlog)
-            showToast('success', data.message)
+
+            xhr.onloadstart = () => {
+                setIsUploading(true)
+                setUploadProgress(0)
+            }
+
+            xhr.onloadend = () => {
+                setIsUploading(false)
+                setUploadProgress(0)
+            }
+
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                    const res = JSON.parse(xhr.responseText)
+                    if (xhr.status !== 200) {
+                        showToast('error', res.message || 'Something went wrong')
+                        return
+                    }
+                    form.reset()
+                    setFile(null)
+                    setPreview(null)
+                    navigate(RouteBlog)
+                    showToast('success', res.message || 'Blog added successfully')
+                }
+            }
+
+            xhr.send(formData)
         } catch (error) {
+            setIsUploading(false)
+            setUploadProgress(0)
             showToast('error', error.message)
         }
     }
@@ -108,32 +138,29 @@ const AddBlog = () => {
         <div>
             <Card className="pt-5">
                 <CardContent>
-                    <h1 className='text-2xl font-bold mb-4'>Edit Blog</h1>
+                    <h1 className='text-2xl font-bold mb-4'>Add Blog</h1>
                     <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)}  >
+                        <form onSubmit={form.handleSubmit(onSubmit)}>
                             <div className='mb-3'>
                                 <FormField
                                     control={form.control}
                                     name="category"
                                     render={({ field }) => (
-
                                         <FormItem>
-
                                             <FormLabel>Category</FormLabel>
                                             <FormControl>
                                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                    <SelectTrigger  >
+                                                    <SelectTrigger>
                                                         <SelectValue placeholder="Select" />
                                                     </SelectTrigger>
                                                     <SelectContent>
-                                                        {categoryData && categoryData.category.length > 0 &&
-                                                            categoryData.category.map(category => <SelectItem key={category._id} value={category._id}>{category.name}</SelectItem>)
-                                                        }
-
-
+                                                        {categoryData?.category?.map((cat) => (
+                                                            <SelectItem key={cat._id} value={cat._id}>
+                                                                {cat.name}
+                                                            </SelectItem>
+                                                        ))}
                                                     </SelectContent>
                                                 </Select>
-
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -177,39 +204,39 @@ const AddBlog = () => {
                                         <div {...getRootProps()}>
                                             <input {...getInputProps()} />
                                             <div className='flex justify-center items-center w-36 h-28 border-2 border-dashed rounded'>
-                                                <img src={filePreview} />
+                                                {filePreview ? (
+                                                    <img src={filePreview} alt="Preview" className="w-full h-full object-cover" />
+                                                ) : (
+                                                    <span className="text-sm text-gray-500">Drop or select image</span>
+                                                )}
                                             </div>
                                         </div>
                                     )}
                                 </Dropzone>
                             </div>
                             <div className='mb-3'>
-
                                 <FormField
                                     control={form.control}
                                     name="blogContent"
-                                    render={({ field }) => (
+                                    render={() => (
                                         <FormItem>
                                             <FormLabel>Blog Content</FormLabel>
-                                            <FormControl className="font-tamil ">
-                                                <Editor  props={{ initialData: '', onChange: handleEditorData }} />
+                                            <FormControl>
+                                                <Editor props={{ initialData: '', onChange: handleEditorData }} />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
                                     )}
                                 />
-
                             </div>
 
-
-
-                            <Button type="submit" className="w-full">Submit</Button>
+                            <Button type="submit" className="w-full" disabled={isUploading}>
+                                {isUploading ? `Uploading... ${uploadProgress}%` : 'Submit'}
+                            </Button>
                         </form>
                     </Form>
-
                 </CardContent>
             </Card>
-
         </div>
     )
 }

@@ -105,29 +105,30 @@ export default function Editor({ props }) {
                         '|',
                         'fontFamily',
                         'fontSize',
-                        'heading',
+                        'fontColor',               // <- Add this
+    'fontBackgroundColor',     // <- Add this
+    'highlight',               // <- And this
+                        // 'heading',
                         '|',
                         'bold',
                         'italic',
                         'underline',
                         '|',
                         'specialCharacters',
-                        'pageBreak',
+                        // 'pageBreak',
                         'link',
-                        'insertImage',
-                        'mediaEmbed',
+                        // 'insertImage',
+                        // 'mediaEmbed',
                         'insertTable',
-                        'blockQuote',
-                        'htmlEmbed',
+                        // 'blockQuote',
+                        // 'htmlEmbed',
                         '|',
                         'bulletedList',
                         'numberedList',
                         'todoList',
                         'outdent',
                         'indent',
-                        'fontColor',               // <- Add this
-    'fontBackgroundColor',     // <- Add this
-    'highlight',               // <- And this
+                        
                         
                     ],
                     shouldNotGroupWhenFull: false

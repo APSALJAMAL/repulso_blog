@@ -33,7 +33,7 @@ const CommentList = ({ props }) => {
                     &&
                     <div className='flex gap-2 mb-3'>
                         <Avatar>
-                            <AvatarImage src={user?.user?.avatar || usericon} />
+                            <AvatarImage src={user?.user?.avatar || usericon} className="w-full h-full object-cover"  />
                         </Avatar>
 
                         <div>
@@ -52,8 +52,8 @@ const CommentList = ({ props }) => {
                     data.comments.map(comment => {
                         return (
                             <div key={comment._id} className='flex gap-2 mb-3'>
-                                <Avatar>
-                                    <AvatarImage src={comment?.user.avatar || usericon} />
+                                <Avatar className="border border-black">
+                                    <AvatarImage src={comment?.user.avatar || usericon} className="w-full h-full object-cover"  />
                                 </Avatar>
 
                                 <div>

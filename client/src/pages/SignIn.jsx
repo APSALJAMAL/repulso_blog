@@ -1,92 +1,99 @@
-import { Button } from '@/components/ui/button'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import React from 'react'
-import { z } from 'zod'
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { Card } from '@/components/ui/card'
-import { RouteIndex, RouteSignUp } from '@/helpers/RouteName'
-import { Link, useNavigate } from 'react-router-dom'
-import { showToast } from '@/helpers/showToast'
-import { getEvn } from '@/helpers/getEnv'
-import { useDispatch } from 'react-redux'
-import { setUser } from '@/redux/user/user.slice'
-import GoogleLogin from '@/components/GoogleLogin'
-import logo from '@/assets/images/Repulsow.png'
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import React from "react";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Card } from "@/components/ui/card";
+import { RouteIndex, RouteSignUp } from "@/helpers/RouteName";
+import { Link, useNavigate } from "react-router-dom";
+import { showToast } from "@/helpers/showToast";
+import { getEvn } from "@/helpers/getEnv";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/redux/user/user.slice";
+import GoogleLogin from "@/components/GoogleLogin";
+import logo from "@/assets/images/Repulsow.png";
 const SignIn = () => {
+  const dispath = useDispatch();
 
-    const dispath = useDispatch()
+  const navigate = useNavigate();
+  const formSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(3, "Password field  required."),
+  });
 
-    const navigate = useNavigate()
-    const formSchema = z.object({
-        email: z.string().email(),
-        password: z.string().min(3, 'Password field  required.')
-    })
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-    const form = useForm({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            email: '',
-            password: '',
-        },
-    })
-
-
-    async function onSubmit(values) {
-        try {
-            const response = await fetch(`${getEvn('VITE_API_BASE_URL')}/auth/login`, {
-                method: 'post',
-                headers: { 'Content-type': 'application/json' },
-                credentials: 'include',
-                body: JSON.stringify(values)
-            })
-            const data = await response.json()
-            if (!response.ok) {
-                return showToast('error', data.message)
-            }
-            dispath(setUser(data.user))
-            navigate(RouteIndex)
-            showToast('success', data.message)
-        } catch (error) {
-            showToast('error', error.message)
+  async function onSubmit(values) {
+    try {
+      const response = await fetch(
+        `${getEvn("VITE_API_BASE_URL")}/auth/login`,
+        {
+          method: "post",
+          headers: { "Content-type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(values),
         }
+      );
+      const data = await response.json();
+      if (!response.ok) {
+        return showToast("error", data.message);
+      }
+      dispath(setUser(data.user));
+      navigate(RouteIndex);
+      showToast("success", data.message);
+    } catch (error) {
+      showToast("error", error.message);
     }
+  }
 
-    return (
-        <div className='flex justify-center items-center h-screen w-screen'>
-            <Card className="w-[400px] p-5 items-center">
-                {/* Logo and site name */}
-                <div className="flex flex-col items-center mb-4">
-  <Link to="/" className="flex flex-col items-center gap-1">
-    <img
-      className="w-32 h-32 object-contain hover:scale-105 transition-transform duration-200"
-      src={logo}
-      alt="logo"
-    />
-    <div className="flex flex-col justify-center leading-tight uppercase font-modern space-y-0.5">
-  <span className="text-base sm:text-xl font-bold tracking-[0.1em]">
-    Chembavalam
-  </span>
-  <span className="text-[10px] sm:text-xs tracking-[0.1em] text-gray-500 ml-2">
-    Research Base Trust
-  </span>
-</div>
+  return (
+    <div className="flex justify-center items-center h-screen w-screen">
+      <Card className="w-[400px] p-5 items-center">
+        {/* Logo and site name */}
+        <div className="flex flex-col items-center mb-4">
+          <Link to="/" className="flex flex-col items-center gap-1">
+            <img
+              className="w-32 h-32 object-contain hover:scale-105 transition-transform duration-200"
+              src={logo}
+              alt="logo"
+            />
+            <div className="flex flex-col justify-center leading-tight uppercase font-modern space-y-0.5">
+              <span className="text-base sm:text-xl font-bold tracking-[0.1em]">
+                Chembavalam
+              </span>
+              <span className="text-[10px] sm:text-xs tracking-[0.1em] text-gray-500 ml-2">
+                Research Base Trust
+              </span>
+            </div>
+          </Link>
+        </div>
 
-  </Link>
-</div>
-
-
-                <h1 className='text-2xl font-bold text-center mb-5'>Login Into Account</h1>
-                <div className=''>
-                    <GoogleLogin />
-                    {/* <div className='border my-5 flex justify-center items-center'>
+        <h1 className="text-2xl font-bold text-center mb-5">
+          Login Into Account
+        </h1>
+        <div className="">
+          <GoogleLogin />
+          {/* <div className='border my-5 flex justify-center items-center'>
                         <span className='absolute bg-white text-sm'>Or</span>
                     </div> */}
+        </div>
 
-                </div>
-
-                {/* <Form {...form}>
+        {/* <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}  >
                         <div className='mb-3'>
                             <FormField
@@ -127,15 +134,14 @@ const SignIn = () => {
                             </div>
                         </div>
                     </form> */}
-                {/* </Form> */}
-                {/* <div className='mt-5 text-sm flex justify-center items-center gap-2'>
+        {/* </Form> */}
+        {/* <div className='mt-5 text-sm flex justify-center items-center gap-2'>
                                 <p>Don&apos;t have account?</p>
                                 <Link className='text-blue-500 hover:underline' to={RouteSignUp}>Sign Up</Link>
                             </div> */}
-            </Card>
+      </Card>
+    </div>
+  );
+};
 
-        </div>
-    )
-}
-
-export default SignIn
+export default SignIn;
