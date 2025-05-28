@@ -79,8 +79,9 @@ const Publish = () => {
                             {blogData?.blog?.length > 0 ?
                                 blogData.blog.map(blog =>
                                     <TableRow key={blog._id}>
-                                        <TableCell>{blog?.author?.name}</TableCell>
-                                        <TableCell>{blog?.category?.name}</TableCell>
+                                        <TableCell>{blog?.author?.name ?? "Unknown"}</TableCell>
+
+                                        <TableCell>{blog?.category?.name ?? "Unknown"}</TableCell>
                                         <TableCell>{blog?.title}</TableCell>
                                         <TableCell>{blog?.slug}</TableCell>
                                         <TableCell>

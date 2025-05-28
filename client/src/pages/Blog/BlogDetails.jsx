@@ -69,8 +69,8 @@ const BlogDetails = () => {
 
                                 blogData.blog.map(blog =>
                                     <TableRow key={blog._id}>
-                                        <TableCell>{blog?.author?.name}</TableCell>
-                                        <TableCell>{blog?.category?.name}</TableCell>
+                                        <TableCell>{blog?.author?.name || "Unknown"}</TableCell>
+                                        <TableCell>{blog?.category?.name || "Unknown"}</TableCell>
                                         <TableCell>{blog?.title}</TableCell>
                                         <TableCell>{blog?.slug}</TableCell>
                                         <TableCell>{moment(blog?.createdAt).format('DD-MM-YYYY')}</TableCell>

@@ -94,7 +94,7 @@ const App = () => {
             <Route path={RouteAddCategory} element={<AddCategory />} />
             <Route path={RouteCategoryDetails} element={<CategoryDetails />} />
             <Route path={RouteEditCategory()} element={<EditCategory />} />
-            <Route path={RouteUser} element={<User />} />
+            {/* <Route path={RouteUser} element={<User />} /> */}
           </Route>
 
           <Route element={<OnlyOwner />}>

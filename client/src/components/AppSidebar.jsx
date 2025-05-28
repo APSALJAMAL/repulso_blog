@@ -78,7 +78,7 @@ const AppSidebar = () => {
                                         <Link to={RouteBlog}>Blogs</Link>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
-                                {(user.user.role === 'admin' || user.user.role === 'owner') && (
+                                {(user.user.role === 'owner') && (
                                 <SidebarMenuItem>
                                     <SidebarMenuButton>
                                         <BiCategoryAlt />
@@ -87,15 +87,15 @@ const AppSidebar = () => {
                                 </SidebarMenuItem>
                                 )}
 
-                                {/* Only show "Users" if role is admin */}
-                                {user.user.role === 'admin' && (
+                                
+                                {/* {user.user.role === 'admin' && (
                                     <SidebarMenuItem>
                                         <SidebarMenuButton>
                                             <LuUsers />
                                             <Link to={RouteUser}>Users</Link>
                                         </SidebarMenuButton>
                                     </SidebarMenuItem>
-                                )}
+                                )} */}
 
                                 {/* Only show "Owner" if role is owner */}
                                 {user.user.role === 'owner' && (

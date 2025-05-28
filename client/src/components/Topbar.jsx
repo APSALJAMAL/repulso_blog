@@ -20,7 +20,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import usericon from "@/assets/images/r.png";
+
 
 import { FaRegUser } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa6";
@@ -111,12 +111,13 @@ const Topbar = () => {
         </button>
 
         {!user.isLoggedIn ? (
-          <Button asChild className="rounded-full ">
-            <Link to={RouteSignIn}>
-              <MdLogin />
-              Sign In
-            </Link>
-          </Button>
+          <Button asChild className="rounded-full">
+          <Link to={RouteSignIn} className="flex items-center gap-2">
+            <MdLogin />
+            <span className="hidden sm:inline">Sign In</span>
+          </Link>
+        </Button>
+        
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger>
