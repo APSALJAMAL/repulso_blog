@@ -50,7 +50,7 @@ const App = () => {
 
     const loadingTimer = setTimeout(() => {
       setLoading(false); // Hide loading spinner after total loading time
-    }, 5000); // 5 seconds total (2 for splash + 3 for loading)
+    }, 1000); // 5 seconds total (2 for splash + 3 for loading)
 
     return () => {
       clearTimeout(splashTimer);

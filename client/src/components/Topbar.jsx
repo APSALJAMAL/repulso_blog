@@ -31,6 +31,7 @@ import { getEvn } from "@/helpers/getEnv";
 import { IoMdSearch } from "react-icons/io";
 import { AiOutlineMenu } from "react-icons/ai";
 import { useSidebar } from "./ui/sidebar";
+import unknownUser from "@/assets/images/R.png";
 
 const Topbar = () => {
   const { toggleSidebar } = useSidebar();
@@ -121,9 +122,17 @@ const Topbar = () => {
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Avatar className="border border-black bg-gray-100">
-                <AvatarImage src={user.user.avatar} />
-              </Avatar>
+            <Avatar className="border border-black">
+  <AvatarImage
+    src={user.user.avatar }
+    onError={(e) => {
+      e.target.onerror = null; // prevent infinite loop
+      e.target.src = unknownUser;
+    }}
+    className="w-full h-full object-cover"
+  />
+</Avatar>
+
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>

@@ -53,18 +53,20 @@ const SingleBlogDetails = () => {
     <div className="md:flex-nowrap flex-wrap flex justify-between gap-20">
       {data && data.blog && (
         <>
-          <div className="border rounded md:w-[70%] w-full p-5">
+          <div className="md:border rounded md:w-[70%] w-full md:md:p-5">
             <h1 className="text-2xl font-bold mb-5">{data.blog.title}</h1>
             <div className="flex justify-between items-center">
               <div className="flex justify-between items-center gap-5">
                 <Avatar>
-                <AvatarImage
-  src={data.blog?.author?.avatar || unknownUser}
-  className="w-full h-full object-cover"
-/>
+                  <AvatarImage
+                    src={data.blog?.author?.avatar || unknownUser}
+                    className="w-full h-full object-cover"
+                  />
                 </Avatar>
                 <div>
-                  <p className="font-bold">{data.blog?.author?.name ?? "Unknown"}</p>
+                  <p className="font-bold">
+                    {data.blog?.author?.name ?? "Unknown"}
+                  </p>
                   <p>
                     Date: {moment(data.blog.createdAt).format("DD-MM-YYYY")}
                   </p>
@@ -89,7 +91,7 @@ const SingleBlogDetails = () => {
               }}
             ></div>
 
-            <div className="border-t mt-8 pt-5">
+            <div className="md:border-t mt-8 pt-5">
               <h2 className="text-lg font-semibold mb-2">Share this blog</h2>
 
               <div className="flex items-center gap-4 flex-wrap">
@@ -123,13 +125,13 @@ const SingleBlogDetails = () => {
               </div>
             </div>
 
-            <div className="border-t mt-5 pt-5">
+            <div className="md:border-t mt-5 pt-5">
               <Comment props={{ blogid: data.blog._id }} />
             </div>
           </div>
         </>
       )}
-      <div className="border rounded md:w-[30%] w-full p-5">
+      <div className="md:border rounded md:w-[30%] w-full md:md:p-5">
         <RelatedBlog props={{ category: category, currentBlog: blog }} />
       </div>
     </div>

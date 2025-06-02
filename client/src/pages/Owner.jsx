@@ -88,9 +88,9 @@ const Owner = () => {
                     <TableCell>{user.email}</TableCell>
                     <TableCell>
                       <img
-                        src={user.avatar || usericon}
+                        src={user.avatar }
                         className="w-10 h-10 rounded-full object-cover"
-                        alt="avatar"
+                      
                       />
                     </TableCell>
                     <TableCell>{moment(user.createdAt).format('DD-MM-YYYY')}</TableCell>

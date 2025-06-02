@@ -28,11 +28,15 @@ const UserProfile = () => {
           <Link to={`/info/${user._id}`} key={user._id}>
             <Card className="shadow-md border border-gray-300 hover:shadow-xl transition-shadow cursor-pointer">
               <CardHeader className="flex items-center gap-4">
-                <img
-                  src={user.avatar || usericon}
-                  alt={user.name}
-                  className="w-32 h-32 rounded-full border border-black object-cover"
-                />
+              <img
+  src={user.avatar || usericon}
+  onError={(e) => {
+    e.target.onerror = null; // prevent infinite loop
+    e.target.src = usericon;
+  }}
+  className="w-32 h-32 rounded-full border border-black object-cover"
+/>
+
                 <div>
                   <h2 className="text-lg font-bold">{user.name}</h2>
                   <p className="text-sm text-gray-600">{user.email}</p>
